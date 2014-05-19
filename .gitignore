@@ -1,0 +1,8 @@
+
+*.o
+
+*.sublime-project
+
+*.sublime-workspace
+
+legitJIT/bin/legitJIT
