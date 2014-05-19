@@ -1,50 +1,52 @@
 /*
- ===============================================================================================================================
- Name        : main.c
- Author      : Vs37nX
- Version     : 0.2
- Copyright   : You can copy any part of this code AS LONG as you mention me somewhere in the projects credits or contributors
- Description : The main file for the legitJIT project... controls all operations
- ===============================================================================================================================
- */
+==============================================================================================
+Name         :  main.c
+Author       :  Vs37nX
+Version      :  0.2
+Copyright    :  Jacob Logan 2014
+Description  :  The main file for the legitJIT project... controls all operations that occur 
+				in the system
+==============================================================================================
+*/
 
-#include <stdio.h>    			/** Printf 				**/
-#include <stdlib.h>   			/** Stdlib 				**/
-#include <assert.h>   			/** Assert 				**/
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
-#include "memManager.h"       /** MemoryManagement **/
-#include "asmInstructions.h"  /** The actual logic **/
+#include "memManager.h"
+#include "asmInstructions.h"
 
-struct memManagerVars mMV;
+void checkVal (bool func, char* msg);
+void setupData(void);
+
+int main()
+{	
+	setupData();
+	fprintf(stderr, "JIT imul result = %d\n", executeMem());
+
+	checkVal(freeMem(), "freeing memory failed!");
+
+	exit(EXIT_SUCCESS);
+}
 
 void setupData(void)
 {
-	movEaxNum(0); /** padding for awnser **/
+	movEaxNum(0); /** Answer for the imul **/
 	imul(5, 7);
 	popEax();
 	ret();
 
-	mMV.memSpace = allocMem();
-	if(copyExecutableCode() == false)
+	checkVal(allocMem(), 		   "memory allocation failed!"      );
+	checkVal(copyExecutableCode(), "copying executable code failed!");
+}
+
+void checkVal(bool func, char* msg)
+{
+	if(!func)
 	{
-		printf("copying executable code failed...");
+		fprintf(stderr, "ERROR: %s", msg);
+		exit(EXIT_FAILURE);
 	}
-
 }
 
-/** int argc, char *argv[] **/
-int main()
-{	
-	long res;
-
-	setupData();
-	res = executeMem();
-	
-	printf("JIT imul result = %d\n", res);
-
-	res = 0;
-	freeMem();
-
-	return 0;
-}
 

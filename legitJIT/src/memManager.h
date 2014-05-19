@@ -22,9 +22,9 @@ struct memManagerVars
 	void* memSpace;
 };
 
-void* allocMem();
-bool  copyExecutableCode();
-bool  freeMem();
-int   executeMem();
+bool allocMem();
+bool copyExecutableCode();
+bool freeMem();
+int  executeMem();
 
 #endif /* MEMMANAGER_H_ */

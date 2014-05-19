@@ -9,12 +9,13 @@ Description  :  This is the implementation file that handles all the memory in t
 ===========================================================================================
 */
 
-#include <sys/mman.h> 	/** mmap, munmap 				**/
-#include <string.h>   	/** memcpy 						**/
-#include <stdlib.h>   	/** stdlib 						**/
-#include <assert.h>   	/** assert 						**/
+#include "memManager.h"
 
-#include "memManager.h" /** The memManager header  **/
+#include <sys/types.h>
+#include <sys/mman.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
 
 struct memManagerVars mMV;
 
@@ -23,24 +24,27 @@ struct memManagerVars mMV;
 * Note: real programs should not map memory both writable and executable because it is a 
 * security risk.
 **/
-void* allocMem(void)
+bool allocMem(void)
 {
 	void* ptrMem;
 
-	ptrMem = mmap(NULL, sizeof(mMV.asmCode),  PROT_WRITE | PROT_EXEC, MAP_ANON | 
-											  MAP_PRIVATE, -1, 0);
+	ptrMem = mmap(NULL, sizeof(mMV.asmCode), PROT_WRITE | PROT_EXEC, 
+											 MAP_ANON   | MAP_PRIVATE | MAP_NOCACHE, 
+											 -1, 0);
 
 	if(ptrMem == (void*)-1) 
 	{
-		assert(ptrMem == (void*)-1);
-		return NULL;
+		assert(ptrMem == (void*)-1); 
+		return false;
 	}
 
-	return ptrMem;
+	mMV.memSpace = ptrMem;
+
+	return true;
 }
 
 /**
-*  Copies processor opcodes to the executable memory buffer
+* Copies processor opcodes to the executable memory buffer
 **/
 bool copyExecutableCode(void)
 {
@@ -52,9 +56,9 @@ bool copyExecutableCode(void)
 }
 
 /**
-*  Frees previously allocated memory allocated by allocMem()
+* Frees previously allocated memory allocated by allocMem()
 *
-*  Returns 1 if successful and 0 if it fails
+* Returns 1 if successful and 0 if it fails
 **/
 bool freeMem(void)
 {
@@ -67,8 +71,8 @@ bool freeMem(void)
 }
 
 /**
-*  Executes memory buffer full of opcodes as a function.
-*  Returns the function pointer func()
+* Executes memory buffer full of opcodes as a function.
+* Returns the function pointer func()
 **/
 int executeMem(void)
 {

@@ -15,12 +15,14 @@ Description  :  This is the header interface for writing to the executable memor
 #include "memManager.h"
 
 void ret(void);
+
 void movEaxNum(int x);
-void pushEax(void);
-void popEcx(void);
-void popEax(void);
-void addNum(int x);
+void pushEax  (void);
+void popEcx   (void);
+void popEax   (void);
+void addNum   (int x);
+
 extern inline void imul(int x, int y);
-extern inline void add(int x, int y);
+extern inline void add (int x, int y);
 
 #endif /* ASMINSTRUCTIONS_H_ */
