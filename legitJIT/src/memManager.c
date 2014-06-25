@@ -16,6 +16,7 @@ Description  :  This is the implementation file that handles all the memory in t
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <stdio.h>
 
 struct memManagerVars mMV;
 
@@ -56,9 +57,9 @@ bool copyExecutableCode(void)
 }
 
 /**
-* Frees previously allocated memory allocated by allocMem()
+* Frees previously allocated memory allocated by allocMem().
 *
-* Returns 1 if successful and 0 if it fails
+* Returns 1 if successful and 0 if it fails.
 **/
 bool freeMem(void)
 {
@@ -71,8 +72,9 @@ bool freeMem(void)
 }
 
 /**
-* Executes memory buffer full of opcodes as a function.
-* Returns the function pointer func()
+* Executes memory buffer full of opcodes.
+*
+* Returns the function pointer func().
 **/
 int executeMem(void)
 {

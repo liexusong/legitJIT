@@ -27,4 +27,6 @@ bool copyExecutableCode();
 bool freeMem();
 int  executeMem();
 
+void outputToFile(char* filename);
+
 #endif /* MEMMANAGER_H_ */

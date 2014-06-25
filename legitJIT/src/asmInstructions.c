@@ -16,13 +16,13 @@ byte* position = mMV.asmCode;
 
 void ret(void)
 {
-    *position++  = 0xc3;
+    *position++  = RET;
 }
 
 void movEaxNum(int x)
 {
 	int* pint;
-    *position++ = 0xb8;
+    *position++ = MOVAX;
     pint = (void*)position;
     *pint++ = x;
     position = (void*)pint;
@@ -31,19 +31,19 @@ void movEaxNum(int x)
 
 void pushEax(void)
 {
-    *position++ = 0x50;
+    *position++ = PUSHAX;
 }
 
 
 void popEcx(void)
 {
-    *position++ = 0x59;
+    *position++ = POPCX;
 }
 
 
 void popEax(void)
 {
-    *position++ = 0x58;
+    *position++ = POPAX;
 }
 
 
@@ -58,13 +58,13 @@ inline void imul(int x, int y)
 	addNum(x);
 	addNum(y);
 
-    *position++ = 0x59;
-    *position++ = 0x58;
+    *position++ = POPCX;
+    *position++ = POPAX;
 
-	*position++ = 0xF7;
-	*position++ = 0xE9;
+	*position++ = IMULRMW;
+	*position++ = JMPNP;
 
-	*position++ = 0x50;
+	*position++ = PUSHAX;
 }
 
 
@@ -75,8 +75,8 @@ void add(int x, int y)
 	popEcx();
 	popEax();
 
-	*position++ = 0x03;
-	*position++ = 0xC1;
+	*position++ = ADDRW;
+	*position++ = ROTATE;
 
 	pushEax();
 }
