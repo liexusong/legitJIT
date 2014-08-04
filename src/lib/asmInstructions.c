@@ -4,7 +4,7 @@ Name         :  asmInstructions.c
 Author       :  Vs37nX
 Version      :  0.2
 Copyright    :  Jacob Logan 2014
-Description  :  This is the header interface for writing to the executable memory space 
+Description  :  This is the header interface for writing to the executable memory space
 				(mMV.memSpace)
 ===========================================================================================
 */
@@ -58,8 +58,8 @@ inline void imul(int x, int y)
 	addNum(x);
 	addNum(y);
 
-    *position++ = POPCX;
-    *position++ = POPAX;
+  *position++ = POPCX;
+  *position++ = POPAX;
 
 	*position++ = IMULRMW;
 	*position++ = JMPNP;
@@ -80,4 +80,3 @@ void add(int x, int y)
 
 	pushEax();
 }
-

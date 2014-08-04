@@ -4,7 +4,7 @@ Name         :  memManager.c
 Author       :  Vs37nX
 Version      :  0.2
 Copyright    :  Jacob Logan 2014
-Description  :  This is the implementation file that handles all the memory in the 
+Description  :  This is the implementation file that handles all the memory in the
 				legitJIT runtime
 ===========================================================================================
 */
@@ -22,20 +22,20 @@ struct memManagerVars mMV;
 
 /**
 * Allocates writable/executable memory and then copies runtime code into allocated memory
-* Note: real programs should not map memory both writable and executable because it is a 
+* Note: real programs should not map memory both writable and executable because it is a
 * security risk.
 **/
 bool allocMem(void)
 {
 	void* ptrMem;
 
-	ptrMem = mmap(NULL, sizeof(mMV.asmCode), PROT_WRITE | PROT_EXEC, 
-											 MAP_ANON   | MAP_PRIVATE | MAP_NOCACHE, 
+	ptrMem = mmap(NULL, sizeof(mMV.asmCode), PROT_WRITE | PROT_EXEC,
+											 MAP_ANON   | MAP_PRIVATE | MAP_NOCACHE,
 											 -1, 0);
 
-	if(ptrMem == (void*)-1) 
+	if(ptrMem == (void*)-1)
 	{
-		assert(ptrMem == (void*)-1); 
+		assert(ptrMem == (void*)-1);
 		return false;
 	}
 
@@ -77,6 +77,12 @@ bool freeMem(void)
 * Returns the function pointer func().
 **/
 int executeMem(void)
+{
+	JittedFunc func = mMV.memSpace;
+	return func();
+}
+
+int executeMemDbg(void)
 {
 	JittedFunc func = mMV.memSpace;
 	return func();
