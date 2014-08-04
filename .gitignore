@@ -9,7 +9,7 @@ legitJIT/bin/legitJIT
 
 *.cmake
 
-*.txt
+CmakeCache.txt
 
 *.bin
 
@@ -44,3 +44,9 @@ bin/CMakeFiles/legitJITLib.dir/depend.internal
 bin/CMakeFiles/progress.marks
 
 bin/CMakeFiles/Makefile2
+
+bin/CMakeFiles/TargetDirectories.txt
+
+bin/CMakeFiles/legitJITLib.dir/link.txt
+
+bin/CMakeFiles/legitJIT.dir/link.txt
