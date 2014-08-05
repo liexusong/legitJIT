@@ -19,15 +19,38 @@ Description  :  The main file for the legitJIT project... controls all operation
 
 void checkVal (bool func, char* msg);
 
-int main()
+int main(int argc, char **argv)
 {
 	int res;
 
+	char o;
+  int num1, num2;
+
 	initTiming();
 
-	/* Sets up the data for the JIT function*/
+	printf("[?] Enter the sum, like this \"NUM2 OPERAND NUM2\": ");
+	scanf("%i %c %i", &num1, &o, &num2);
+
 	movEaxNum(0);
-	imul(5, 7);
+
+	switch(o)
+	{
+	case '*':
+		imul(num1, num2);
+		break;
+	case '/':
+		idiv(num1, num2);
+		break;
+	case '+':
+		add (num1, num2);
+		break;
+	case '-':
+		sub (num1, num2);
+		break;
+	default:
+		printf("default\n");
+	}
+
 	popEax();
 	ret();
 
@@ -39,9 +62,9 @@ int main()
   res = executeMem();
 	finishTimer();
 
-  fprintf(stderr, "JIT imul result = %d\n",   res);
-  fprintf(stderr, "multiplier   %u / %u\n",   getTimebaseNumer(), getTimebaseDenom());
-  fprintf(stderr, "elapsed time    = %llu nanos\n", getElapsedTime());
+  fprintf(stderr, "JIT result   = %d\n",   res);
+  fprintf(stderr, "multiplier   = %u / %u\n",   getTimebaseNumer(), getTimebaseDenom());
+  fprintf(stderr, "elapsed time = %llu nanos\n", getElapsedTime());
 
   /*
   * Frees the memory... Because if I dont clean up people tend to yell at me

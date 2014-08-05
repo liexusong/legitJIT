@@ -17,16 +17,25 @@ Description  :  This is the header interface for writing to the executable memor
 void ret(void);
 
 extern inline void movEaxNum(int x);
+extern inline void movEdxNum(int x);
 extern inline void pushEax  (void);
+extern inline void pushEdx  (void);
 extern inline void popEcx   (void);
 extern inline void popEax   (void);
+extern inline void popEdx   (void);
 extern inline void addNum   (int x);
 
 extern inline void imul(int x, int y);
+extern inline void idiv(int x, int y);
+extern inline void sub (int x, int y);
 extern inline void add (int x, int y);
 
 #define RET    0xc3
+
 #define MOVAX  0xb8
+#define MOVBX  0xbb
+#define MOVCX  0xb9
+#define MOVDX  0xba
 
 #define PUSHAX 0x50
 #define PUSHCX 0x51
@@ -38,8 +47,10 @@ extern inline void add (int x, int y);
 #define POPBX  0x5b
 
 #define IMULRMW 0xf7
+#define IDIVRMW 0xf7
 
 #define ADDRW 0x03
+#define SUBRW 0x2b
 
 #define ROTATE 0xc1
 
