@@ -26,6 +26,7 @@ struct memManagerVars
 
 extern bool allocMem(void);
 extern bool copyExecutableCode(void);
+extern bool makeMemoryExecutable(void);
 extern bool freeMem(void);
 extern inline int executeMem(void);
 

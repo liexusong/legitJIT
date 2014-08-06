@@ -19,6 +19,18 @@ void ret(void)
     *position++  = RET;
 }
 
+void clearEax(void)
+{
+  *position++  = 0x31;
+  *position++  = 0xc0;
+}
+
+void clearEbx(void)
+{
+  *position++  = 0x31;
+  *position++  = 0xdb;
+}
+
 void movEaxNum(int x)
 {
 	int* pint;
@@ -37,29 +49,27 @@ void movEbxNum(int x)
   position = (void*)pint;
 }
 
+void movEcxNum(int x)
+{
+  int* pint;
+  *position++ = 0xb9;
+  pint = (void*)position;
+  *pint++ = x;
+  position = (void*)pint;
+}
+
+void movEdxNum(int x)
+{
+  int* pint;
+  *position++ = 0xba;
+  pint = (void*)position;
+  *pint++ = x;
+  position = (void*)pint;
+}
+
 void pushEax(void)
 {
     *position++ = PUSHAX;
-}
-
-void pushEdx(void)
-{
-    *position++ = PUSHDX;
-}
-
-void pushEbx(void)
-{
-    *position++ = 0x53;
-}
-
-void popEcx(void)
-{
-    *position++ = POPCX;
-}
-
-void popEbx(void)
-{
-    *position++ = 0x5b;
 }
 
 void popEax(void)
@@ -67,47 +77,25 @@ void popEax(void)
     *position++ = POPAX;
 }
 
-void popEdx(void)
-{
-    *position++ = POPDX;
-}
-
-void addNum(int x)
-{
-    movEaxNum(x);
-    pushEax();
-}
-
-void addNumEbx(int x)
-{
-    movEbxNum(x);
-    pushEbx();
-}
-
 void imul(int x, int y)
 {
-	addNum(x);
-	addNum(y);
-
-  popEcx();
-  popEax();
+  movEaxNum(x);
+  movEbxNum(y);
 
 	*position++ = 0xf7;
-	*position++ = 0xe9;
+	*position++ = 0xe3;
 
 	pushEax();
 }
 
 void idiv(int x, int y)
 {
-  addNum(x);
-  addNum(y);
-
-  popEcx();
-  popEax();
+  movEaxNum(x);
+  *position++ = 0x99; // cdq
+  movEcxNum(y);
 
   *position++ = 0xf7;
-  *position++ = 0xf3;
+  *position++ = 0xf9;
 
   pushEax();
 }
@@ -115,26 +103,22 @@ void idiv(int x, int y)
 
 void sub(int x, int y)
 {
-  addNum(x);
-  addNum(y);
-  popEcx();
-  popEax();
+  movEaxNum(x);
+  movEbxNum(y);
 
   *position++ = 0x29;
-  *position++ = 0xc8;
+  *position++ = 0xd8;
 
   pushEax();
 }
 
 void add(int x, int y)
 {
-	addNum(x);
-	addNum(y);
-	popEcx();
-	popEax();
+  movEaxNum(x);
+  movEbxNum(y);
 
 	*position++ = 0x01;
-	*position++ = 0xc8;
+	*position++ = 0xd8;
 
 	pushEax();
 }

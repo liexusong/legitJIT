@@ -83,7 +83,7 @@ void checkVal(bool func, char* msg)
 {
 	if(!func)
 	{
-		fprintf(stderr, "ERROR: %s", msg);
+		fprintf(stderr, "ERROR: %s\n", msg);
 		exit(EXIT_FAILURE);
 	}
 }

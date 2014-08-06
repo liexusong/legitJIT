@@ -66,6 +66,7 @@ bool freeMem(void)
 	if(mMV.memSpace && mMV.asmCode)
 	{
 		munmap(mMV.memSpace, sizeof(mMV.asmCode));
+
 		return true;
 	}
 	return false;

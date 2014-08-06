@@ -32,11 +32,14 @@ extern inline void add (int x, int y);
 
 #define RET    0xc3
 
+#define XOR    0x31
+
 #define MOVAX  0xb8
 #define MOVBX  0xbb
 #define MOVCX  0xb9
 #define MOVDX  0xba
 
+#define PUSHAX 0x50
 #define PUSHAX 0x50
 #define PUSHCX 0x51
 #define PUSHDX 0x52

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(legitJIT)
 
-SET(GCC_COVERAGE_COMPILE_FLAGS "-O4 -Wall -Werror")
+SET(GCC_COVERAGE_COMPILE_FLAGS "-g -Wall -Werror")
 SET(GCC_COVERAGE_LINK_FLAGS    "")
 
 
