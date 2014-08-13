@@ -16,7 +16,8 @@ Copyright    :  Jacob Logan 2014 Description : This is the header interface for 
 typedef unsigned char byte;
 typedef enum bool {false, true} bool;
 
-typedef int (*JittedFunc)(void);
+typedef int   (*JittedFunc)(void);
+typedef float (*FloatJittedFunc)(void);
 
 struct memManagerVars
 {
@@ -24,11 +25,13 @@ struct memManagerVars
 	void* memSpace;
 };
 
+extern void dump(void);
 extern bool allocMem(void);
 extern bool copyExecutableCode(void);
 extern bool makeMemoryExecutable(void);
 extern bool freeMem(void);
 extern inline int executeMem(void);
+extern inline float executeMemFloat(void);
 
 //void outputToFile(char* filename);
 

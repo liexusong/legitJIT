@@ -127,29 +127,29 @@ legitJITLib/fast:
 	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/build
 .PHONY : legitJITLib/fast
 
-src/lib/asmInstructions.o: src/lib/asmInstructions.c.o
-.PHONY : src/lib/asmInstructions.o
+src/lib/floatAsmInstructions.o: src/lib/floatAsmInstructions.c.o
+.PHONY : src/lib/floatAsmInstructions.o
 
 # target to build an object file
-src/lib/asmInstructions.c.o:
-	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/asmInstructions.c.o
-.PHONY : src/lib/asmInstructions.c.o
+src/lib/floatAsmInstructions.c.o:
+	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/floatAsmInstructions.c.o
+.PHONY : src/lib/floatAsmInstructions.c.o
 
-src/lib/asmInstructions.i: src/lib/asmInstructions.c.i
-.PHONY : src/lib/asmInstructions.i
+src/lib/floatAsmInstructions.i: src/lib/floatAsmInstructions.c.i
+.PHONY : src/lib/floatAsmInstructions.i
 
 # target to preprocess a source file
-src/lib/asmInstructions.c.i:
-	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/asmInstructions.c.i
-.PHONY : src/lib/asmInstructions.c.i
+src/lib/floatAsmInstructions.c.i:
+	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/floatAsmInstructions.c.i
+.PHONY : src/lib/floatAsmInstructions.c.i
 
-src/lib/asmInstructions.s: src/lib/asmInstructions.c.s
-.PHONY : src/lib/asmInstructions.s
+src/lib/floatAsmInstructions.s: src/lib/floatAsmInstructions.c.s
+.PHONY : src/lib/floatAsmInstructions.s
 
 # target to generate assembly for a file
-src/lib/asmInstructions.c.s:
-	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/asmInstructions.c.s
-.PHONY : src/lib/asmInstructions.c.s
+src/lib/floatAsmInstructions.c.s:
+	$(MAKE) -f CMakeFiles/legitJITLib.dir/build.make CMakeFiles/legitJITLib.dir/src/lib/floatAsmInstructions.c.s
+.PHONY : src/lib/floatAsmInstructions.c.s
 
 src/lib/memManager.o: src/lib/memManager.c.o
 .PHONY : src/lib/memManager.o
@@ -233,9 +233,9 @@ help:
 	@echo "... legitJIT"
 	@echo "... legitJITLib"
 	@echo "... rebuild_cache"
-	@echo "... src/lib/asmInstructions.o"
-	@echo "... src/lib/asmInstructions.i"
-	@echo "... src/lib/asmInstructions.s"
+	@echo "... src/lib/floatAsmInstructions.o"
+	@echo "... src/lib/floatAsmInstructions.i"
+	@echo "... src/lib/floatAsmInstructions.s"
 	@echo "... src/lib/memManager.o"
 	@echo "... src/lib/memManager.i"
 	@echo "... src/lib/memManager.s"

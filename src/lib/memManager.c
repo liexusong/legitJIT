@@ -20,6 +20,15 @@ Description  :  This is the implementation file that handles all the memory in t
 
 struct memManagerVars mMV;
 
+void dump(void)
+{
+	int i;
+	for (i = 0; i < 255; ++i)
+	{
+  	printf("asmCode[%d] %c", i, mMV.asmCode[i]);
+  }
+}
+
 /**
 * Allocates writable/executable memory and then copies runtime code into allocated memory
 * Note: real programs should not map memory both writable and executable because it is a
@@ -83,8 +92,8 @@ int executeMem(void)
 	return func();
 }
 
-int executeMemDbg(void)
+float executeMemFloat(void)
 {
-	JittedFunc func = mMV.memSpace;
+	FloatJittedFunc func = mMV.memSpace;
 	return func();
 }

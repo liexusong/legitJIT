@@ -3,6 +3,6 @@ legitJIT
 
 A toy JIT compiler written in C
 
-NOTE: LegitJIT is designed to use intel x86 opcodes. If you dont like this then just fork the damm project and add the appropriate opcodes yourself
+This compiler generates intel x86 opcodes and puts it into an executable buffer. This JIT does all arithmetic with floating point operations
 
 ~~VS37NX~~

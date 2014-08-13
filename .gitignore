@@ -50,3 +50,9 @@ bin/CMakeFiles/TargetDirectories.txt
 bin/CMakeFiles/legitJITLib.dir/link.txt
 
 bin/CMakeFiles/legitJIT.dir/link.txt
+
+bin/legitJIT
+
+*.a
+
+bin/liblegitJITLib.a

@@ -15,7 +15,7 @@ Description  :  The main file for the legitJIT project... controls all operation
 
 #include "timer.h"
 #include "memManager.h"
-#include "asmInstructions.h"
+#include "floatAsmInstructions.h"
 
 void checkVal (bool func, char* msg);
 
@@ -28,41 +28,73 @@ int main(int argc, char **argv)
 
 	initTiming();
 
-	printf("[?] Enter the sum, like this \"NUM2 OPERAND NUM2\": ");
+	printf("[?] Enter the expression, like this \"NUM2 OPERAND NUM2\": ");
 	scanf("%i %c %i", &num1, &o, &num2);
 
-	movEaxNum(0);
+	enter32(4, 0);
+
+	movNumEax(num1);
+	movNumEcx(num2);
 
 	switch(o)
 	{
 	case '*':
-		imul(num1, num2);
+		pushEax();
+		fildDwordEsp();
+		pushEcx();
+		fildDwordEsp();
+		fmul();
 		break;
 	case '/':
-		idiv(num1, num2);
+		pushEax();
+		fildDwordEsp();
+		pushEcx();
+		fildDwordEsp();
+		fdiv();
 		break;
 	case '+':
-		add (num1, num2);
+		pushEax();
+		fildDwordEsp();
+		pushEcx();
+		fildDwordEsp();
+		fadd();
 		break;
 	case '-':
-		sub (num1, num2);
+		pushEax();
+		fildDwordEsp();
+		pushEcx();
+		fildDwordEsp();
+		fsub();
 		break;
 	default:
 		printf("default\n");
 	}
 
-	popEax();
+	fistpDwordEbp(-4);
+	movMemEax_Ebp_disp(-4);
+
+	//popEax();
+
+	leave();
 	ret();
+
+	// fild
+	// or
+	// fild
+	// or
+	// fdiv
+	// fistp
+	// ret
 
 	checkVal(allocMem(), 		       "memory allocation failed!"      );
 	checkVal(copyExecutableCode(), "copying executable code failed!");
 
 	startTimer();
 	/* Execute the JIT'ted function pointer containing opcodes */
-  res = executeMem();
+	res = executeMem();
 	finishTimer();
+	fprintf(stderr, "JIT result   = %d\n",   res);
 
-  fprintf(stderr, "JIT result   = %d\n",   res);
   fprintf(stderr, "multiplier   = %u / %u\n",   getTimebaseNumer(), getTimebaseDenom());
   fprintf(stderr, "elapsed time = %llu nanos\n", getElapsedTime());
 
