@@ -1,14 +1,3 @@
-/*
-===========================================================================================
-Name         :  memManager.c
-Author       :  Vs37nX
-Version      :  0.2
-Copyright    :  Jacob Logan 2014
-Description  :  This is the implementation file that handles all the memory in the
-				legitJIT runtime
-===========================================================================================
-*/
-
 #include "memManager.h"
 
 #include <sys/types.h>
@@ -39,7 +28,7 @@ bool allocMem(void)
 	void* ptrMem;
 
 	ptrMem = mmap(NULL, sizeof(mMV.asmCode), PROT_WRITE | PROT_EXEC,
-											 MAP_ANON   | MAP_PRIVATE | MAP_NOCACHE,
+											 MAP_ANON   | MAP_PRIVATE,
 											 -1, 0);
 
 	if(ptrMem == (void*)-1)

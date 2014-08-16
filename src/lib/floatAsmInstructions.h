@@ -1,14 +1,3 @@
-/*
-===========================================================================================
-Name         :  asmInstructions.h
-Author       :  Vs37nX
-Version      :  0.2
-Copyright    :  Jacob Logan 2014
-Description  :  This is the header interface for writing to the executable memory space
-        (mMV.memSpace)
-===========================================================================================
-*/
-
 #ifndef FLOATASMINSTRUCTIONS_H_
 #define FLOATASMINSTRUCTIONS_H_
 

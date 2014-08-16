@@ -1,14 +1,7 @@
-/*
-===============================================================================================
-Name         :  timerh
-Author       :  Vs37nX
-Version      :  0.2
-Copyright    :  Jacob Logan 2014 Description : This is the timer interface
-===============================================================================================
-*/
-
 #ifndef TIMER_H_
 #define TIMER_H_
+
+#define SEC2NANOSEC 1000000000
 
 #ifdef __APPLE__
   #include <sys/time.h>
@@ -16,28 +9,27 @@ Copyright    :  Jacob Logan 2014 Description : This is the timer interface
 #endif
 
 #include <unistd.h>
+#include <stdint.h>
 #include <time.h>
 
 struct timerVars
 {
-  uint64_t        start;
-  uint64_t        end;
-  uint64_t        elapsedNano;
-
 #ifdef __APPLE__
+  uint64_t        start, end, elapsedNano;
   mach_timebase_info_data_t sTimebaseInfo;
+#elif  __linux__
+  struct timespec start, end, TS;
+  uint64_t elapsedNano;
 #endif
 };
 
-void initTiming(void);
+extern inline void initTiming(void);
 
 extern inline void startTimer(void);
 extern inline void finishTimer(void);
 
-#ifdef __APPLE__
 extern inline uint8_t getTimebaseNumer(void);
 extern inline uint8_t getTimebaseDenom(void);
-#endif
 
 extern uint64_t getElapsedTime(void);
 

@@ -1,17 +1,11 @@
-/*
-==============================================================================================
-Name         :  main.c
-Author       :  Vs37nX
-Version      :  0.2
-Copyright    :  Jacob Logan 2014
-Description  :  The main file for the legitJIT project... controls all operations that occur
-				in the system
-==============================================================================================
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+
+#ifdef __linux__
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
+#endif
 
 #include "timer.h"
 #include "memManager.h"
@@ -95,8 +89,8 @@ int main(int argc, char **argv)
 	finishTimer();
 	fprintf(stderr, "JIT result   = %d\n",   res);
 
-  fprintf(stderr, "multiplier   = %u / %u\n",   getTimebaseNumer(), getTimebaseDenom());
-  fprintf(stderr, "elapsed time = %llu nanos\n", getElapsedTime());
+  fprintf(stderr, "multiplier   = %u / %u\n", getTimebaseNumer(), getTimebaseDenom());
+  fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
 
   /*
   * Frees the memory... Because if I dont clean up people tend to yell at me
