@@ -20,6 +20,8 @@ struct timerVars
 #elif  __linux__
   struct timespec start, end, TS;
   uint64_t elapsedNano;
+#elif _WIN32
+
 #endif
 };
 
@@ -27,9 +29,6 @@ extern inline void initTiming(void);
 
 extern inline void startTimer(void);
 extern inline void finishTimer(void);
-
-extern inline uint8_t getTimebaseNumer(void);
-extern inline uint8_t getTimebaseDenom(void);
 
 extern uint64_t getElapsedTime(void);
 

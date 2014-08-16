@@ -88,8 +88,6 @@ int main(int argc, char **argv)
 	res = executeMem();
 	finishTimer();
 	fprintf(stderr, "JIT result   = %d\n",   res);
-
-  fprintf(stderr, "multiplier   = %u / %u\n", getTimebaseNumer(), getTimebaseDenom());
   fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
 
   /*
