@@ -1,7 +1,5 @@
-sanicJIT
+legitJIT
 ============
-
-A toy JIT compiler that wants to go faster
 
 This compiler generates intel x86 opcodes and puts it into an executable buffer. This JIT does all arithmetic with floating point operations
 
