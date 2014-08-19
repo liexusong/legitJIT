@@ -2,10 +2,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#ifdef __linux__
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
-#endif
 
 #include "timer.h"
 #include "memManager.h"
@@ -33,52 +31,42 @@ int main(int argc, char **argv)
 	switch(o)
 	{
 	case '*':
-		pushEax();
+		s_emit(push_eax);
 		fildDwordEsp();
-		pushEcx();
+		s_emit(push_ecx);
 		fildDwordEsp();
-		fmul();
+		d_emit(fmul);
 		break;
 	case '/':
-		pushEax();
+		s_emit(push_eax);
 		fildDwordEsp();
-		pushEcx();
+		s_emit(push_ecx);
 		fildDwordEsp();
-		fdiv();
+		d_emit(fdiv);
 		break;
 	case '+':
-		pushEax();
+		s_emit(push_eax);
 		fildDwordEsp();
-		pushEcx();
+		s_emit(push_ecx);
 		fildDwordEsp();
-		fadd();
+		d_emit(fadd);
 		break;
 	case '-':
-		pushEax();
+		s_emit(push_eax);
 		fildDwordEsp();
-		pushEcx();
+		s_emit(push_ecx);
 		fildDwordEsp();
-		fsub();
+		d_emit(fsub);
 		break;
 	default:
-		printf("default\n");
+		fprintf("[!] invalid operation\n", );
 	}
 
 	fistpDwordEbp(-4);
 	movMemEax_Ebp_disp(-4);
 
-	//popEax();
-
-	leave();
-	ret();
-
-	// fild
-	// or
-	// fild
-	// or
-	// fdiv
-	// fistp
-	// ret
+	s_emit(leave);
+	s_emit(ret);
 
 	checkVal(allocMem(), 		       "memory allocation failed!"      );
 	checkVal(copyExecutableCode(), "copying executable code failed!");
@@ -90,10 +78,6 @@ int main(int argc, char **argv)
 	fprintf(stderr, "JIT result   = %d\n",   res);
   fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
 
-  /*
-  * Frees the memory... Because if I dont clean up people tend to yell at me
-  * over IRC when i ask for help.
-  */
 	checkVal(freeMem(), "freeing memory failed!");
 
 	exit(EXIT_SUCCESS);

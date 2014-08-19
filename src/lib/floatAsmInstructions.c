@@ -3,24 +3,18 @@
 struct memManagerVars mMV;
 byte* position = mMV.asmCode;
 
-void ret(void)
+void s_emit(S_Opcode opcode)
 {
-    *position++  = 0xc3;
+#define S_OP(name, code) if(name == opcode) *position++ = code;
+  SINGLE_OPCODE_TABLE(S_OP)
+#undef S_OP
 }
 
-void leave(void)
+void d_emit(D_Opcode opcode)
 {
-    *position++  = 0xc9;
-}
-
-void pushEax(void)
-{
-    *position++ = 0x50;
-}
-
-void pushEcx(void)
-{
-    *position++ = 0x51;
+#define D_OP(name, code1, code2) if(name == opcode) {*position++ = code1; *position++ = code2;}
+  DUAL_OPCODE_TABLE(D_OP)
+#undef D_OP
 }
 
 // Works only if the memory you want isn't more than 256
@@ -80,28 +74,4 @@ void fistpDwordEbp(int num)
   *position++ = 0x5d;
 
   *position++ = (byte)num;
-}
-
-void fadd()
-{
-  *position++ = 0xde;
-  *position++ = 0xc1;
-}
-
-void fsub()
-{
-  *position++ = 0xde;
-  *position++ = 0xe9;
-}
-
-void fmul()
-{
-  *position++ = 0xde;
-  *position++ = 0xc9;
-}
-
-void fdiv()
-{
-  *position++ = 0xde;
-  *position++ = 0xf9;
 }

@@ -56,3 +56,13 @@ bin/legitJIT
 *.a
 
 bin/liblegitJITLib.a
+
+bin/CMakeFiles/Progress/1
+
+bin/CMakeFiles/Progress/2
+
+bin/CMakeFiles/Progress/3
+
+bin/CMakeFiles/Progress/4
+
+*.txt
