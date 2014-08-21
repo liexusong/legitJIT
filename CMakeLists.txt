@@ -4,8 +4,6 @@ project(legitJIT)
 SET(GCC_COVERAGE_COMPILE_FLAGS "-g -Wall -Werror")
 SET(GCC_COVERAGE_LINK_FLAGS    "")
 
-
-
 SET(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
@@ -23,6 +21,5 @@ include_directories(${PROJECT_INCLUDE_DIRS})
 
 add_library(legitJITLib STATIC ${PROJECT_SOURCES})
 
-add_executable(legitJIT src/main.c)
-
-TARGET_LINK_LIBRARIES(legitJIT legitJITLib)
+add_executable(simpleScanner src/simpleScanner.c)
+TARGET_LINK_LIBRARIES(simpleScanner legitJITLib)

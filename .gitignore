@@ -66,3 +66,21 @@ bin/CMakeFiles/Progress/3
 bin/CMakeFiles/Progress/4
 
 *.txt
+
+*.includecache
+
+*.internal
+
+bin/flexBisonExample.tab.c
+
+bin/flexBisonExample.tab.h
+
+bin/lex.yy.c
+
+bin/flexBisonExample
+
+bin/Makefile
+
+bin/simpleScanner
+
+src/lex.yy.c
