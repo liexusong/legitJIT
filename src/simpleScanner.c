@@ -31,27 +31,27 @@ int main(int argc, char **argv)
 
 		enter32(4, 0);
 
-		s_emit_1a_i(mov_eax, num1);
-		s_emit_1a_i(mov_ecx, num2);
+		emit_1a_i(mov_ecx, num1);
+		emit(push_ecx);
+		emit(fild_dword_ptr_esp);
 
-		s_emit(push_eax);
-		t_emit(fild_dword_ptr_esp);
-		s_emit(push_ecx);
-		t_emit(fild_dword_ptr_esp);
+		emit_1a_i(mov_ecx, num2);
+		emit(push_ecx);
+		emit(fild_dword_ptr_esp);
 
 		switch(o)
 		{
 		case '*':
-			d_emit(fmul);
+			emit(fmul);
 			break;
 		case '/':
-			d_emit(fdiv);
+			emit(fdiv);
 			break;
 		case '+':
-			d_emit(fadd);
+			emit(fadd);
 			break;
 		case '-':
-			d_emit(fsub);
+			emit(fsub);
 			break;
 		default:
 			fprintf(stderr, "[!] invalid operation\n");
@@ -59,11 +59,11 @@ int main(int argc, char **argv)
 			break;
 		}
 
-		d_emit_1a_b(fistp_dword_ebp,  -4);
-		d_emit_1a_b(mov_eax_ebp_disp, -4);
+		emit_1a_b(fistp_dword_ebp,  -4);
+		emit_1a_b(mov_eax_ebp_disp, -4);
 
-		s_emit(leave);
-		s_emit(ret);
+		emit(leave);
+		emit(ret);
 
 		checkVal(allocMem(), 		       "memory allocation failed!"      );
 		checkVal(copyExecutableCode(), "copying executable code failed!");
@@ -76,6 +76,8 @@ int main(int argc, char **argv)
 	  fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
 
 		checkVal(freeMem(), "freeing memory failed!");
+
+		res = 0;
 	}
 
 	exit(EXIT_SUCCESS);

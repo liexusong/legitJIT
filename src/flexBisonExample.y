@@ -38,14 +38,14 @@ prog: {initTiming(); enter32(4, 0);}
     | prog expr {}
     ;
 
-expr:   NUMBER      {s_emit_1a_i(mov_ecx, $1); s_emit(push_ecx);
-		                 t_emit(fild_dword_ptr_esp);}
+expr:   NUMBER      {emit_1a_i(mov_ecx, $1); emit(push_ecx);
+		                 emit(fild_dword_ptr_esp);}
 
-    | expr '*' expr {d_emit(fmul);}
-    | expr '/' expr {d_emit(fdiv);}
+    | expr '*' expr {emit(fmul);}
+    | expr '/' expr {emit(fdiv);}
 
-	  | expr '+' expr {d_emit(fadd);}
-	  | expr '-' expr {d_emit(fsub);}
+	  | expr '+' expr {emit(fadd);}
+	  | expr '-' expr {emit(fsub);}
 
     | '(' expr ')'  {$$ = $2;}
     ;
@@ -55,11 +55,11 @@ int main()
 {
     yyparse();
 
-    d_emit_1a_b(fistp_dword_ebp,  -4);
-		d_emit_1a_b(mov_eax_ebp_disp, -4);
+    emit_1a_b(fistp_dword_ebp,  -4);
+		emit_1a_b(mov_eax_ebp_disp, -4);
 
-		s_emit(leave);
-		s_emit(ret);
+		emit(leave);
+		emit(ret);
 
 		checkVal(allocMem(), 		       "memory allocation failed!"      );
 		checkVal(copyExecutableCode(), "copying executable code failed!");

@@ -1,51 +1,66 @@
 #include "floatAsmInstructions.h"
 
+#include <stdio.h>
+#include <assert.h>
+
 struct memManagerVars mMV;
 byte* position = mMV.asmCode;
 
-void s_emit(S_Opcode opcode)
+void emit(I386_Opcode opcode)
 {
-#define S_OP(name, code) \
-  if(name == opcode) *position++ = code;
-  SINGLE_OPCODE_TABLE(S_OP)
+  if(false) {}
+
+#define S_OP(name, b, code) \
+  else if(name == opcode) *position++ = code;
+  I386_S_OPCODE_TABLE(S_OP)
 #undef S_OP
-}
-
-void d_emit(D_Opcode opcode)
-{
-#define D_OP(name, code1, code2) \
-  if(name == opcode) {*position++ = code1; *position++ = code2;}
-  DUAL_OPCODE_TABLE(D_OP)
+#define D_OP(name, b, code1, code2) \
+  else if(name == opcode) {*position++ = code1; *position++ = code2;}
+  I386_D_OPCODE_TABLE(D_OP)
 #undef D_OP
-}
-
-void t_emit(T_Opcode opcode)
-{
-#define T_OP(name, code1, code2, code3) \
-  if(name == opcode) {*position++ = code1; *position++ = code2; *position++ = code3;}
-  TRI_OPCODE_TABLE(T_OP)
+#define T_OP(name, b, code1, code2, code3) \
+  else if(name == opcode) {*position++ = code1; *position++ = code2; *position++ = code3;}
+  I386_T_OPCODE_TABLE(T_OP)
 #undef T_OP
+
+  else assert(false);
 }
 
-void d_emit_1a_b(D_Opcode opcode, int num)
+void emit_1a_b(I386_Opcode opcode, int num)
 {
-#define D_OP(name, code1, code2) \
-  if(name == opcode) {*position++ = code1; *position++ = code2; *position++ = (byte)num;}
-  DUAL_OPCODE_TABLE(D_OP)
-#undef D_OP
-}
+  if(false) {}
 
-void s_emit_1a_i(S_Opcode opcode, int num)
-{
-#define S_OP(name, code) \
-  if(name == opcode) *position++ = code;
-  SINGLE_OPCODE_TABLE(S_OP)
+#define S_OP(name, b, code1) \
+  else if(name == opcode) {*position++ = code1; *position++ = (byte)num;}
+  I386_S_OPCODE_TABLE(S_OP)
 #undef S_OP
+#define D_OP(name, b, code1, code2) \
+  else if(name == opcode) {*position++ = code1; *position++ = code2; *position++ = (byte)num;}
+  I386_D_OPCODE_TABLE(D_OP)
+#undef D_OP
 
-int* pint;
-pint = (void*)position;
-*pint++ = num;
-position = (void*)pint;
+  else assert(false);
+}
+
+void emit_1a_i(I386_Opcode opcode, int num)
+{
+  if(false) {}
+
+#define S_OP(name, b, code) \
+  else if(name == opcode) *position++ = code;
+  I386_S_OPCODE_TABLE(S_OP)
+#undef S_OP
+#define D_OP(name, b, code1, code2) \
+  else if(name == opcode) {*position++ = code1; *position++ = code2;}
+  I386_D_OPCODE_TABLE(D_OP)
+#undef D_OP
+
+  else assert(false);
+
+  int* pint;
+  pint = (void*)position;
+  *pint++ = num;
+  position = (void*)pint;
 }
 
 // Works only if the memory you want isn't more than 256
