@@ -11,8 +11,8 @@ typedef float (*FloatJittedFunc)(void);
 
 struct memManagerVars
 {
-	byte asmCode [255];
-	void* memSpace;
+    byte asmCode [1023];
+    void* memSpace;
 };
 
 extern void dump(void);

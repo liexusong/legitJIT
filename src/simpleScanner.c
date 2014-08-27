@@ -13,74 +13,72 @@ void checkVal (bool func, char* msg);
 
 int main(int argc, char **argv)
 {
-	int res;
+    int res;
+    char o;
+    int num1, num2;
 
-	char o;
-  int num1, num2;
+    initTiming();
 
-	initTiming();
+    bool done = false;
+    while(!done)
+    {
+        printf("[?] Enter the expression, like this \"NUM2 OPERAND NUM2\" \
+	      \n[?] Press enter without any input to quit: ");
+        if(scanf("%i %c %i", &num1, &o, &num2) < 3)
+	    break;
 
-	bool done = false;
+        enter32(4, 0);
 
-	while(!done)
-	{
-		printf("[?] Enter the expression, like this \"NUM2 OPERAND NUM2\" \
-					\n[?] Press enter without any input to quit: ");
-		if(scanf("%i %c %i", &num1, &o, &num2) < 3)
-			break;
+        emit_1a_i(mov_ecx, num1);
+        emit(push_ecx);
+        emit(fild_dword_ptr_esp);
 
-		enter32(4, 0);
+        emit_1a_i(mov_ecx, num2);
+        emit(push_ecx);
+        emit(fild_dword_ptr_esp);
 
-		emit_1a_i(mov_ecx, num1);
-		emit(push_ecx);
-		emit(fild_dword_ptr_esp);
+        switch(o)
+        {
+        case '*':
+            emit(fmul);
+            break;
+        case '/':
+            emit(fdiv);
+            break;
+        case '+':
+            emit(fadd);
+            break;
+        case '-':
+            emit(fsub);
+            break;
+        default:
+            fprintf(stderr, "[!] invalid operation\n");
+            done = true;
+            break;
+        }
 
-		emit_1a_i(mov_ecx, num2);
-		emit(push_ecx);
-		emit(fild_dword_ptr_esp);
+        emit_1a_b(fistp_dword_ebp,  -4);
+        emit_1a_b(mov_eax_ebp_disp, -4);
 
-		switch(o)
-		{
-		case '*':
-			emit(fmul);
-			break;
-		case '/':
-			emit(fdiv);
-			break;
-		case '+':
-			emit(fadd);
-			break;
-		case '-':
-			emit(fsub);
-			break;
-		default:
-			fprintf(stderr, "[!] invalid operation\n");
-			done = true;
-			break;
-		}
+        emit(leave);
+        emit(ret);
 
-		emit_1a_b(fistp_dword_ebp,  -4);
-		emit_1a_b(mov_eax_ebp_disp, -4);
+        checkVal(allocMem(), 		       "memory allocation failed!"      );
+        checkVal(copyExecutableCode(), "copying executable code failed!");
 
-		emit(leave);
-		emit(ret);
+        startTimer();
+        /* Execute the JIT'ted function pointer containing opcodes */
+        res = executeMem();
+        finishTimer();
+        fprintf(stderr, "JIT result   = %d\n",   res);
+        fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
 
-		checkVal(allocMem(), 		       "memory allocation failed!"      );
-		checkVal(copyExecutableCode(), "copying executable code failed!");
+        checkVal(freeMem(), "freeing memory failed!");
+        freeMem();
 
-		startTimer();
-		/* Execute the JIT'ted function pointer containing opcodes */
-		res = executeMem();
-		finishTimer();
-		fprintf(stderr, "JIT result   = %d\n",   res);
-	  fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
-
-		checkVal(freeMem(), "freeing memory failed!");
-
-		res = 0;
-	}
-
-	exit(EXIT_SUCCESS);
+        res = 0;
+    }
+    exit(EXIT_SUCCESS);
 }
 
 /**
@@ -89,9 +87,10 @@ int main(int argc, char **argv)
 **/
 void checkVal(bool func, char* msg)
 {
-	if(!func)
-	{
-		fprintf(stderr, "[!] %s\n", msg);
-		exit(EXIT_FAILURE);
-	}
+    if(!func)
+    {
+        fprintf(stderr, "[!] %s\n", msg);
+        exit(EXIT_FAILURE);
+    }
 }
+

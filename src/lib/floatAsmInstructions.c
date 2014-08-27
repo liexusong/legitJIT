@@ -63,6 +63,27 @@ void emit_1a_i(I386_Opcode opcode, int num)
   position = (void*)pint;
 }
 
+void emit_1a_p(I386_Opcode opcode, int *num)
+{
+  if(false) {}
+
+#define S_OP(name, b, code) \
+  else if(name == opcode) *position++ = code;
+  I386_S_OPCODE_TABLE(S_OP)
+#undef S_OP
+#define D_OP(name, b, code1, code2) \
+  else if(name == opcode) {*position++ = code1; *position++ = code2;}
+  I386_D_OPCODE_TABLE(D_OP)
+#undef D_OP
+
+  else assert(false);
+
+  unsigned *pint;
+  pint = (void*)position;
+  *pint++ = (unsigned)num;
+  position = (void*)pint;
+}
+
 // Works only if the memory you want isn't more than 256
 // TODO: add a facility for numbers bigger then one byte
 void enter32(int mem, int nest)

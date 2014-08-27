@@ -13,6 +13,7 @@
   S_OP(push_eax,         "push eax",                   0x50) \
   S_OP(push_ecx,         "push ecx",                   0x51) \
   S_OP(mov_eax,          "mov eax",                    0xb8) \
+  S_OP(mov_eax_addr,     "mov eax [\"i\"]",            0xa1) \
   S_OP(mov_ecx,          "mov ecx",                    0xb9) \
 /*----------------------------------------------------------*/
 
@@ -27,6 +28,8 @@
   D_OP(fdiv,             "fdiv",                       0xde, 0xf9) \
   D_OP(fcos,             "fcos",                       0xd9, 0xff) \
   D_OP(fsin,             "fsin",                       0xd9, 0xfe) \
+  D_OP(fild_dword_addr,  "fild  dword [\"i\"]",        0xdb, 0x05) \
+  D_OP(fistp_dword_addr, "fistp dword [\"i\"]",        0xdb, 0x1d) \
   D_OP(fistp_dword_ebp,  "fistp dword [ebp + \"i\"]",  0xdb, 0x5d) \
   D_OP(mov_eax_ebp_disp, "mov eax [ebp + \"i\"]",      0x8b, 0x45) \
 /*----------------------------------------------------------------*/
@@ -55,6 +58,7 @@ typedef enum
 extern void emit       (I386_Opcode opcode);
 extern void emit_1a_b(I386_Opcode opcode, int num);
 extern void emit_1a_i(I386_Opcode opcode, int num);
+extern void emit_1a_p(I386_Opcode opcode, int *num);
 
 extern void enter32(int m, int n);
 

@@ -12,19 +12,24 @@
 
 #include "flexBisonExample.tab.h"
 
+#define MAXINTS 128
+
 void yyerror(char* msg);
 int  yylex();
 int  main();
 
 void checkVal (bool func, char* msg);
 
-int res = 0;
+
+int foo[MAXINTS];
+int fooidx = 0;
+int res    = 0;
 %}
 
 %union
 {
-    int i;
-    char* s;
+  int i;
+  char* s;
 }
 
 %token<i> NUMBER
@@ -38,43 +43,43 @@ prog: {initTiming(); enter32(4, 0);}
     | prog expr {}
     ;
 
-expr:   NUMBER      {emit_1a_i(mov_ecx, $1); emit(push_ecx);
-		                 emit(fild_dword_ptr_esp);}
+expr: NUMBER {foo[fooidx] = $1; emit_1a_p(fild_dword_addr, &foo[fooidx]); fooidx++;}
 
     | expr '*' expr {emit(fmul);}
     | expr '/' expr {emit(fdiv);}
-
-	  | expr '+' expr {emit(fadd);}
-	  | expr '-' expr {emit(fsub);}
-
+    | expr '+' expr {emit(fadd);}
+    | expr '-' expr {emit(fsub);}
     | '(' expr ')'  {$$ = $2;}
     ;
 %%
 
 int main()
 {
-    yyparse();
+  yyparse();
 
-    emit_1a_b(fistp_dword_ebp,  -4);
-		emit_1a_b(mov_eax_ebp_disp, -4);
+  emit_1a_b(fistp_dword_ebp,  -4);
+  emit_1a_b(mov_eax_ebp_disp, -4);
 
-		emit(leave);
-		emit(ret);
+  emit(leave);
+  emit(ret);
 
-		checkVal(allocMem(), 		       "memory allocation failed!"      );
-		checkVal(copyExecutableCode(), "copying executable code failed!");
+  checkVal(allocMem(), 		       "memory allocation failed!"      );
+  checkVal(copyExecutableCode(), "copying executable code failed!");
 
-		startTimer();
-		/* Execute the JIT'ted function pointer containing opcodes */
-		res = executeMem();
-		finishTimer();
-		fprintf(stderr, "JIT result   = %d\n",   res);
-	  fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
+  startTimer();
 
-		checkVal(freeMem(), "freeing memory failed!");
-    exit(EXIT_SUCCESS);
+  /* Execute the JIT'ted function pointer containing opcodes */
+  res = executeMem();
 
-    return 0;
+  finishTimer();
+
+  fprintf(stderr, "JIT result   = %d\n",   res);
+  fprintf(stderr, "elapsed time = %" PRIu64 " nanos\n", getElapsedTime());
+
+  checkVal(freeMem(), "freeing memory failed!");
+  exit(EXIT_SUCCESS);
+
+  return 0;
 }
 
 void yyerror(char* msg)
